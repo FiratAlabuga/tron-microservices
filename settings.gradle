@@ -1,0 +1,5 @@
+rootProject.name = 'tron'
+include 'common-service'
+include 'auth-service'
+include('apartment-service')
+include('payment-service')

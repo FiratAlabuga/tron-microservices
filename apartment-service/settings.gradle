@@ -1,0 +1,2 @@
+rootProject.name = 'apartment-service'
+include('common-service')
