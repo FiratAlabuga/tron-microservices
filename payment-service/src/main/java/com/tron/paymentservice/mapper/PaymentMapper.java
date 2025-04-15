@@ -14,6 +14,4 @@ public interface PaymentMapper extends BaseMapper<Payment, PaymentDTO> {
     PaymentDTO toDto(Payment payment);
     // If you need to update an existing Payment entity with values from PaymentDTO
     void updateEntity(Payment payment, PaymentDTO paymentDTO);
-
-
 }

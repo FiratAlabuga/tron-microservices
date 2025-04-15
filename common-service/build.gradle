@@ -13,6 +13,11 @@ dependencies {
     api 'org.mapstruct:mapstruct:1.5.5.Final'
     api 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     api 'org.springframework.kafka:spring-kafka'
+    // Kafka client bağımlılığı (Kafka ile doğrudan iletişim kurmak için)
+    implementation 'org.apache.kafka:kafka-clients'
+
+    // Test için Kafka bağımlılığı
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
     api 'org.projectlombok:lombok:1.18.36'
     compileOnly('org.projectlombok:lombok:1.18.36')
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'

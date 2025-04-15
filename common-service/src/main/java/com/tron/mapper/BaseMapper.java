@@ -8,19 +8,19 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
  * Tüm mapper interface'lerinin türeteceği temel interface.
  * DTO ve Entity arasında dönüşüm sağlar.
  *
- * @param <D> DTO tipi
- * @param <E> Entity tipi
+ * @param <D> Entity tipi
+ * @param <E> DTO tipi
  */
 public interface BaseMapper<D, E> {
     /**
      * DTO'dan Entity'ye dönüşüm yapar
      */
-    E toEntity(D dto);
+    D toEntity(E dto);
 
     /**
      * Entity'den DTO'ya dönüşüm yapar
      */
-    D toDto(E entity);
+    E toDto(D entity);
 
     /**
      * Entity'yi DTO'dan gelen değerlerle günceller

@@ -45,6 +45,9 @@ public abstract class BaseEntity {
     @Column(name = "modified_by")
     private String modifiedBy;
 
+    @Column(name = "status")
+    private Boolean status = true;
+
     @Version
     private Long version;
 }

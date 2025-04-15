@@ -3,6 +3,7 @@ package com.tron.api.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Tüm API cevaplarının temel yapısı.

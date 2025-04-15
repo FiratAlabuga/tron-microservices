@@ -10,6 +10,7 @@
         </processorPath>
         <module name="tron.apartment-service.main" />
         <module name="tron.auth-service.main" />
+        <module name="tron.payment-service.main" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
