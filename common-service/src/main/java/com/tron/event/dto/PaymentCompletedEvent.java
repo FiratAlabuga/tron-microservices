@@ -1,16 +1,15 @@
 package com.tron.event.dto;
 
+import com.tron.domain.enums.PaymentStatus;
 import lombok.*;
-
-import java.math.BigDecimal;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentRollbackEvent {
+public class PaymentCompletedEvent {
     private String sagaId;
     private String apartmentId;
-    private BigDecimal amount;
-    private String reason;
+    private PaymentStatus status;
+    private String message;
 }
