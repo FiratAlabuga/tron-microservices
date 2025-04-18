@@ -1,0 +1,23 @@
+# application.yml
+kafka:
+  bootstrap-servers: localhost:9092
+  producer:
+    compression-type: snappy
+    retries: 3
+  consumer:
+    auto-offset-reset: latest
+    enable-auto-commit: false
+
+spring:
+  application:
+    name: common-service
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_USERNAME}
+    password: ${GMAIL_PASSWORD}
+  kafka:
+    # Trusted packages (tüm event'lerin paketleri)
+    deserializer:
+      value:
+        trusted-packages: "com.tron.event.dto.*"

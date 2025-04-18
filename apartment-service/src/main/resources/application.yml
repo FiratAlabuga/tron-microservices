@@ -1,0 +1,26 @@
+# application.yml
+kafka:
+  bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+  topics:
+    payment-created: payment.created
+    payment-completed: payment.completed
+    payment-rollback: payment.rollback
+
+  consumer:
+    group-id: apartment-service-${ENVIRONMENT:dev}
+    max-poll-records: 200  # Batch processing için
+
+  producer:
+    linger-ms: 20  # Batch gönderim için bekleme süresi
+
+spring:
+  application:
+    name: apartment-service
+  kafka:
+    listener:
+      ack-mode: batch  # Batch commit
+      idle-event-interval: 60000  # 1 dakikada bir heartbeat
+
+    # Apartment'ın handle ettiği event tipleri
+    properties:
+      spring.json.value.default.type: com.common.events.PaymentCompletedEvent,com.common.events.PaymentRollbackEvent

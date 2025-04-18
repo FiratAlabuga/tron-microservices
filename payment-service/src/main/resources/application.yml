@@ -1,0 +1,26 @@
+# application.yml
+kafka:
+  bootstrap-servers: ${KAFKA_BROKERS:localhost:9092}
+  topics:
+    payment-created: payment.created
+    payment-completed: payment.completed
+    payment-rollback: payment.rollback
+
+  consumer:
+    group-id: payment-service-${ENVIRONMENT:dev}  # Örnek: payment-service-prod
+    concurrency: 3  # Partition sayısına göre ayarlayın
+
+  producer:
+    transaction-id-prefix: payment-tx-  # Transactional producer için
+
+spring:
+  application:
+    name: payment-service
+  kafka:
+    listener:
+      ack-mode: manual_immediate  # Manuel commit
+      missing-topics-fatal: false  # Topic yoksa hata verme
+
+    # PaymentCreatedEvent için özel deserializer (opsiyonel)
+    properties:
+      spring.json.value.default.type: com.common.events.PaymentCreatedEvent

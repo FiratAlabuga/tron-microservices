@@ -20,5 +20,4 @@ public class PaymentCreatedEvent {
     private BigDecimal amount;
     private String paymentTypeMethod;
     private LocalDateTime paidAt;
-    private String errorMessage;
 }

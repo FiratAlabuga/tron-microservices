@@ -17,7 +17,7 @@ public interface PaymentService {
      * @param amount        the amount to be paid
      * @return a confirmation message or transaction ID
      */
-    String processPayment(String paymentTypeId, BigDecimal amount);
+    Boolean processPayment(String paymentTypeId, BigDecimal amount);
 
     /**
      * Refund a payment with the given transaction ID.

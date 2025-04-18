@@ -5,24 +5,29 @@ import com.tron.apartmentservice.domain.Apartment;
 import com.tron.apartmentservice.domain.Resident;
 import com.tron.apartmentservice.dto.ApartmentDTO;
 import com.tron.apartmentservice.event.producer.PaymentKafkaProducer;
+import com.tron.apartmentservice.event.publisher.ApartmentEventPublisher;
 import com.tron.apartmentservice.mapper.ApartmentMapper;
 import com.tron.apartmentservice.repository.ApartmentRepository;
 import com.tron.apartmentservice.repository.ResidentRepository;
 import com.tron.apartmentservice.service.ApartmentService;
 import com.tron.event.PaymentEventRequest;
+import com.tron.event.dto.PaymentCreatedEvent;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class ApartmentServiceImpl implements ApartmentService {
-    private final PaymentKafkaProducer kafkaProducer;
+//    private final PaymentKafkaProducer kafkaProducer;
+    private final ApartmentEventPublisher apartmentEventPublisher;
     private final ApartmentRepository apartmentRepository;
     private final ResidentRepository residentRepository;
     private final ApartmentMapper apartmentMapper = Mappers.getMapper(ApartmentMapper.class); // Assuming you have a mapper to convert between DTO and entity
@@ -91,17 +96,24 @@ public class ApartmentServiceImpl implements ApartmentService {
             throw new RuntimeException("Yetersiz bakiye");
         }
 
-        // Bakiyeyi düş
-        resident.setBalance(resident.getBalance().subtract(apartmentPaymentRequest.getAmount()));
         apartmentRepository.save(apartment);
 
         // Kafka'ya mesaj gönder
-        PaymentEventRequest paymentRequest = new PaymentEventRequest();
-        paymentRequest.setResidentId(resident.getResidentId());  // Örnek olarak apartment ID
-        paymentRequest.setApartmentId(apartment.getApartmentId());
-        paymentRequest.setAmount(apartmentPaymentRequest.getAmount());
-        paymentRequest.setPaymentMethod(apartmentPaymentRequest.getPaymentMethodType());
-
-        kafkaProducer.sendPaymentEvent(paymentRequest);
+//        PaymentEventRequest paymentRequest = new PaymentEventRequest();
+//        paymentRequest.setResidentId(resident.getResidentId());  // Örnek olarak apartment ID
+//        paymentRequest.setApartmentId(apartment.getApartmentId());
+//        paymentRequest.setAmount(apartmentPaymentRequest.getAmount());
+//        paymentRequest.setPaymentMethod(apartmentPaymentRequest.getPaymentMethodType());
+//        paymentRequest.
+//        paymentRequest.setPaymentDate(apartmentPaymentRequest.getPaymentDate());
+        PaymentCreatedEvent paymentCreatedEvent = new PaymentCreatedEvent();
+        paymentCreatedEvent.setSagaId(UUID.randomUUID().toString());
+        paymentCreatedEvent.setApartmentId(apartment.getApartmentId());
+        paymentCreatedEvent.setResidentId(resident.getResidentId());
+        paymentCreatedEvent.setAmount(apartmentPaymentRequest.getAmount());
+        paymentCreatedEvent.setPaymentTypeMethod(apartmentPaymentRequest.getPaymentMethodType());
+        paymentCreatedEvent.setPaidAt(LocalDateTime.now());
+        apartmentEventPublisher.publishPaymentCreatedEvent(paymentCreatedEvent);
+        //kafkaProducer.sendPaymentEvent(paymentCreatedEvent);
     }
 }
