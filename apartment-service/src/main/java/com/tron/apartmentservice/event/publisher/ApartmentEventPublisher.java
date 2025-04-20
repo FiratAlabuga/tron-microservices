@@ -1,9 +1,6 @@
 package com.tron.apartmentservice.event.publisher;
 
-import com.tron.apartmentservice.event.producer.PaymentKafkaProducer;
-import com.tron.event.dto.PaymentCompletedEvent;
 import com.tron.event.dto.PaymentCreatedEvent;
-import com.tron.event.dto.PaymentRollbackEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class ApartmentEventPublisher {
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
-    private Logger logger = LoggerFactory.getLogger(PaymentKafkaProducer.class);
+    private Logger logger = LoggerFactory.getLogger(ApartmentEventPublisher.class);
 
     @Value("${kafka.topics.payment-created}")
     private String topic;
@@ -25,5 +22,6 @@ public class ApartmentEventPublisher {
 
     public void publishPaymentCreatedEvent(PaymentCreatedEvent event) {
         kafkaTemplate.send(topic,event.getSagaId(),event);
+        logger.info("[APARTMENT-SERVICE] [PAYMENT-REQUEST] Sent to Kafka - SagaId: {}, ApartmentId: {}", event.getSagaId(), event.getApartmentId());
     }
 }

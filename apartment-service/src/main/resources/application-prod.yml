@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: apartment-service
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: apartment-service-${ENVIRONMENT:prod}
+      max-poll-records: 200
+    producer:
+      linger-ms: 20
+    listener:
+      ack-mode: batch
+      idle-event-interval: 60000
+    properties:
+      spring.json.value.default.type: com.tron.events.dto.PaymentCompletedEvent,com.tron.events.dto.PaymentRollbackEvent
+
+kafka:
+  topics:
+    payment-created: payment.created
+    payment-completed: payment.completed
+    payment-rollback: payment.rollback
+
+logging:
+  level:
+    root: WARN
