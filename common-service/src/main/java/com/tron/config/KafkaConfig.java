@@ -54,6 +54,7 @@ public class KafkaConfig {
         valueDeserializer.addTrustedPackages("*");
         valueDeserializer.setRemoveTypeHeaders(false);
 
+
         DefaultKafkaConsumerFactory<String, PaymentCreatedEvent> consumerFactory =
                 new DefaultKafkaConsumerFactory<>(consumerProps, new StringDeserializer(), valueDeserializer);
 

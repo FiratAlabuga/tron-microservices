@@ -3,9 +3,12 @@ spring:
     name: apartment-service
 
   datasource:
-    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:apartment_db}
-    username: ${POSTGRES_USER:apartment_user}
-    password: ${POSTGRES_PASSWORD:apartment_pass}
+#    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5433}/${POSTGRES_DB:apartment_db}
+#    username: ${POSTGRES_USER:postgres}
+#    password: ${POSTGRES_PASSWORD:postgres}
+    url: jdbc:postgresql://localhost:5433/apartment_db
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
 
   jpa:

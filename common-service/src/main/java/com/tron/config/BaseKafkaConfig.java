@@ -37,3 +37,4 @@ public class BaseKafkaConfig {
         return props;
     }
 }
+

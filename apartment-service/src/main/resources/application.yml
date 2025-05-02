@@ -1,6 +1,8 @@
 spring:
-  config:
-    activate:
-      on-profile: ${SPRING_PROFILES_ACTIVE:dev}
+#  config:
+#    activate:
+#      on-profile: ${SPRING_PROFILES_ACTIVE:dev}
   application:
     name: ${SPRING_APPLICATION_NAME:service}
+  profiles:
+    active: dev
